@@ -1,16 +1,3 @@
-/*
-<라이브러리 다운>
-npm i @woowa-babble/random-nickname
-
-<package.json 수정>
-{
-  "type": "module",
-  "dependencies": {
-    "@woowa-babble/random-nickname": "^1.0.2"
-  }
-}
-*/
-
 import pkg from './random-nickname/src/index.js'; 
 const { getRandomNickname } = pkg;
 
