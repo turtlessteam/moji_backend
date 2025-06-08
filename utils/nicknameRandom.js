@@ -1,7 +1,7 @@
 import pkg from './random-nickname/src/index.js'; 
 const { getRandomNickname } = pkg;
 
-const type = 'animals'; // animals, heroes, characters, monsters
+const type = 'animals';
 const count = 20;
 
 
