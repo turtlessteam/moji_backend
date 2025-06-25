@@ -2,7 +2,7 @@ const registerService = require('../services/registerService');
 
 exports.register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { userEmail, userPassword } = req.body;
 
     const { access_token, id, nickname } = await registerService.registerUser(email, password);
 

@@ -7,7 +7,11 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 exports.registerUser = async (email, password) => {
   // 1. 회원가입 시도
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({
+    email: userEmail,
+    password: userPassword
+  });
+
 
   if (error || !data.user || !data.session) {
     throw new Error(error?.message || '회원가입 실패');
