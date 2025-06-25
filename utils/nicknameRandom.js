@@ -1,38 +1,78 @@
-import pkg from './random-nickname/src/index.js'; 
+import pkg from '../random-nickname/src/index.js';
+import supabase from './supabaseClient.js';
+
 const { getRandomNickname } = pkg;
 
-const type = 'animals';
-const count = 20;
+const NICKNAME_TYPE = 'animals';
+const GENERATE_COUNT = 20;
 
+let nicknamePool = [];
+let isRefilling = false;
+let refillPromise = null;
 
-function getMultipleRandomNicknames(type, count) {
-  const nicknames = [];
-  for (let i = 0; i < count; i++) {
-    nicknames.push(getRandomNickname(type));
+/**
+ * Supabase에서 이미 사용된 닉네임 목록 가져오기
+ */
+async function getUsedNicknamesFromDB() {
+  const { data, error } = await supabase.from('nicknames').select('nickname');
+  if (error) {
+    console.error('닉네임 불러오기 실패:', error.message);
+    return [];
   }
-  return nicknames;
+  return data.map(row => row.nickname);
 }
 
-const randomNickname = getMultipleRandomNicknames(type, count);
+/**
+ * 닉네임 풀을 채우는 함수 (겹치는 닉네임 제외하고 정확히 20개 확보)
+ */
+async function refillNicknamePool() {
+  if (isRefilling) {
+    return refillPromise; // 이미 리필 중이면 같은 Promise 반환 (동시성 안전)
+  }
 
-console.log(randomNickname);
+  isRefilling = true;
 
-/* 이후에 집합 이용할 것
-const randomNicknames = new Set([
-  '멋진 사자', '귀여운 호랑이', '용감한 토끼', '영리한 올빼미', '뚱뚱한 여우',
-]);
+  refillPromise = (async () => {
+    const existingNicknames = new Set(await getUsedNicknamesFromDB());
+    const result = new Set();
 
-const usedNicknames = new Set([
-  '귀여운 호랑이', '뚱뚱한 여우',
-]);
+    // 겹치는 닉네임 제외하고 20개 확보될 때까지 생성 반복
+    while (result.size < GENERATE_COUNT) {
+      const candidate = getRandomNickname(NICKNAME_TYPE);
+      if (!existingNicknames.has(candidate) && !result.has(candidate)) {
+        result.add(candidate);
+      }
+    }
 
-// 차집합 만들기 → 아직 안 쓰인 닉네임만 추출
-const availableNicknames = new Set(
-  [...randomNicknames].filter(name => !usedNicknames.has(name))
-);
+    nicknamePool = [...result];
+    console.log(`[닉네임] 풀 재생성 완료 (${nicknamePool.length}개 사용 가능)`);
 
-console.log(availableNicknames);
-// Set(3) { '멋진 사자', '용감한 토끼', '영리한 올빼미' }
+    isRefilling = false;
+  })();
 
+  return refillPromise;
+}
 
-*/
+/**
+ * 닉네임 하나 반환 (풀에 5개 미만이면 자동 refill 요청)
+ */
+export async function getNickname() {
+  if (nicknamePool.length < 5) {
+    // refill을 요청하되, 바로 pop() 수행 가능
+    refillNicknamePool();
+  }
+
+  if (nicknamePool.length === 0) {
+    // 만약 드물게 refill 중인데 닉네임이 하나도 없으면 대기
+    await refillPromise;
+  }
+
+  return nicknamePool.pop();
+}
+
+/**
+ * 서버 시작 시 초기 풀 세팅
+ */
+export async function initNicknamePool() {
+  await refillNicknamePool();
+}
