@@ -2,9 +2,9 @@ const registerService = require('../services/registerService');
 
 exports.register = async (req, res) => {
   try {
-    const { userEmail, userPassword } = req.body;
+    const { userEmail, password } = req.body;
 
-    const { access_token, id, nickname } = await registerService.registerUser(email, password);
+    const { access_token, id, nickname } = await registerService.registerUser(userEmail, password);
 
     res.status(201).json({ access_token, id, nickname });
   } catch (error) {

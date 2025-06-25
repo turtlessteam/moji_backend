@@ -5,11 +5,11 @@ const { getNickname } = require('../utils/nicknameRandom');
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-exports.registerUser = async (email, password) => {
+exports.registerUser = async (userEmail, password) => {
   // 1. 회원가입 시도
   const { data, error } = await supabase.auth.signUp({
     email: userEmail,
-    password: userPassword
+    password
   });
 
 
