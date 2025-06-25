@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
+const registerRoutes = require('./routes/registerRoutes');
 //const supabase = require('./services/supabaseClient');
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json()); //json 파싱
 
 //라우터 등록
 app.use('/', authRoutes);
+app.use('/onboard/register', registerRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ 서버 작동 중!');
