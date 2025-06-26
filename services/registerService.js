@@ -1,4 +1,4 @@
-const supabase = require('../utils/supabaseClient');
+const supabase = require('../services/supabaseClient');
 const { createClient } = require('@supabase/supabase-js');
 const { getNickname } = require('../utils/nicknameRandom');
 
