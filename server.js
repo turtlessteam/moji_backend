@@ -13,7 +13,7 @@ app.use(express.json()); //json 파싱
 
 //라우터 등록
 app.use('/', authRoutes);
-app.use('/onboard/register', registerRoutes);
+app.use('/onboard', registerRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ 서버 작동 중!');
