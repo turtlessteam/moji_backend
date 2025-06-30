@@ -1,38 +1,62 @@
-import pkg from './random-nickname/src/index.js'; 
+const pkg = require('./random-nickname/src/index.js');
+const supabase = require('../services/supabaseClient.js');
 const { getRandomNickname } = pkg;
 
-const type = 'animals';
-const count = 20;
+const NICKNAME_TYPE = 'animals';
+const GENERATE_COUNT = 20;
 
+let nicknamePool = [];
+let isRefilling = false;
+let refillPromise = null;
 
-function getMultipleRandomNicknames(type, count) {
-  const nicknames = [];
-  for (let i = 0; i < count; i++) {
-    nicknames.push(getRandomNickname(type));
+async function getUsedNicknamesFromDB() {
+  const { data, error } = await supabase.from('nicknames').select('nickname');
+  if (error) {
+    console.error('닉네임 불러오기 실패:', error.message);
+    return [];
   }
-  return nicknames;
+  return data.map(row => row.nickname);
 }
 
-const randomNickname = getMultipleRandomNicknames(type, count);
+async function refillNicknamePool() {
+  if (isRefilling) return refillPromise;
 
-console.log(randomNickname);
+  isRefilling = true;
+  refillPromise = (async () => {
+    const existingNicknames = new Set(await getUsedNicknamesFromDB());
+    const result = new Set();
 
-/* 이후에 집합 이용할 것
-const randomNicknames = new Set([
-  '멋진 사자', '귀여운 호랑이', '용감한 토끼', '영리한 올빼미', '뚱뚱한 여우',
-]);
+    while (result.size < GENERATE_COUNT) {
+      const candidate = getRandomNickname(NICKNAME_TYPE);
+      if (!existingNicknames.has(candidate) && !result.has(candidate)) {
+        result.add(candidate);
+      }
+    }
 
-const usedNicknames = new Set([
-  '귀여운 호랑이', '뚱뚱한 여우',
-]);
+    nicknamePool = [...result];
+    console.log(`[닉네임] 풀 재생성 완료 (${nicknamePool.length}개 사용 가능)`);
+    isRefilling = false;
+  })();
 
-// 차집합 만들기 → 아직 안 쓰인 닉네임만 추출
-const availableNicknames = new Set(
-  [...randomNicknames].filter(name => !usedNicknames.has(name))
-);
+  return refillPromise;
+}
 
-console.log(availableNicknames);
-// Set(3) { '멋진 사자', '용감한 토끼', '영리한 올빼미' }
+async function getNickname() {
+  if (nicknamePool.length < 5) {
+    refillNicknamePool();
+  }
 
+  if (nicknamePool.length === 0) {
+    await refillPromise;
+  }
 
-*/
+  return nicknamePool.pop();
+}
+
+async function initNicknamePool() {
+  await refillNicknamePool();
+}
+
+module.exports = {
+  getNickname
+};
