@@ -2,7 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY;
+const SUPABASE_API_KEY = process.env.SUPABASE_KEY;
 
 const getNicknameByUserId = async (userId, accessToken) => {
     try {
@@ -18,8 +18,8 @@ const getNicknameByUserId = async (userId, accessToken) => {
         data = response.data;
         return data[0].nickname;
     } catch (error) {
-        console.error('Supabase ´Ð³×ÀÓ ºÒ·¯¿À±â ½ÇÆÐ:', error.response?.data || error.message);
-        throw new Error('Supabase ´Ð³×ÀÓ ºÒ·¯¿À±â ½ÇÆÐ');
+        console.error('Supabase ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½:', error.response?.data || error.message);
+        throw new Error('Supabase ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
     }
 };
 

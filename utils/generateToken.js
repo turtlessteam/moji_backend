@@ -1,13 +1,13 @@
-//npm install axios ÇÒ °Í
+//npm install axios ï¿½ï¿½ ï¿½ï¿½
 require('dotenv').config();
 const axios = require('axios');
 
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY;
+const SUPABASE_API_KEY = process.env.SUPABASE_KEY;
 
 
-async function getSupabaseToken(email, password) { //ÀÎÀÚ´Â ¸ðµÎ ¹®ÀÚ¿­·Î ³Ñ±â±â
+async function getSupabaseToken(email, password) { //ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½
     try {
         const response = await axios.post(
             `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
@@ -18,7 +18,7 @@ async function getSupabaseToken(email, password) { //ÀÎÀÚ´Â ¸ðµÎ ¹®ÀÚ¿­·Î ³Ñ±â±â
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'apikey': SUPABASE_API_KEY
+                    'apikey': SUPABASE_KEY
                 }
             }
         );
@@ -34,8 +34,8 @@ async function getSupabaseToken(email, password) { //ÀÎÀÚ´Â ¸ðµÎ ¹®ÀÚ¿­·Î ³Ñ±â±â
         };
 
     } catch (error) {
-        console.error('Supabase ·Î±×ÀÎ ½ÇÆÐ:', error.response?.data || error.message);
-        throw new Error('Supabase ·Î±×ÀÎ ½ÇÆÐ');
+        console.error('Supabase ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½:', error.response?.data || error.message);
+        throw new Error('Supabase ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
     }
 }
 

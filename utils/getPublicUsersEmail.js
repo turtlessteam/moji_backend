@@ -2,7 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY;
+const SUPABASE_API_KEY = process.env.SUPABASE_KEY;
 
 async function getPublicUsersEmail(email) {
   try {
