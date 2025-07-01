@@ -1,6 +1,5 @@
 const authService = require('../services/authService');
 
-//전체 로직 흐름을 정리
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -10,3 +9,4 @@ exports.login = async (req, res) => {
         res.status(401).json({ message: err.message });
     }
 };
+

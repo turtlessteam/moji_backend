@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const registerRoutes = require('./routes/registerRoutes');
+const isSameRoutes = require('./routes/isSameRoutes');
 //const supabase = require('./services/supabaseClient');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json()); //json 파싱
 
 app.use('/', authRoutes);
 app.use('/onboard', registerRoutes);
+app.use('/onboard', isSameRoutes);
 
 
 app.get('/', (req, res) => {
