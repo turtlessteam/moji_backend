@@ -18,7 +18,7 @@ async function getSupabaseToken(email, password) { //ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ ï¿
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'apikey': SUPABASE_KEY
+                    'apikey': SUPABASE_API_KEY
                 }
             }
         );
