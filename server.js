@@ -15,7 +15,7 @@ app.use(express.json()); //json 파싱
 
 //라우터 등록
 
-app.use('/', authRoutes);
+app.use('/onboard', authRoutes);
 app.use('/onboard', registerRoutes);
 app.use('/onboard', isSameRoutes);
 app.use('/memo', getMemoRoutes);
