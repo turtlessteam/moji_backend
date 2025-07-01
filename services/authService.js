@@ -2,8 +2,8 @@ const { getSupabaseToken } = require('../utils/generateToken');
 const { getNicknameByUserId } = require('../utils/getNicknameByUserId');
 
 
-async function login(email, password) {
-    const userInfo = await getSupabaseToken(email, password); //ÅäÅ«, ¾ÆÀÌµð, ÀÌ¸ÞÀÏ ¸®ÅÏ
+async function login(userEmail, password) {
+    const userInfo = await getSupabaseToken(userEmail, password); //ï¿½ï¿½Å«, ï¿½ï¿½ï¿½Ìµï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     const access_token = userInfo.access_token;
     const id = userInfo.id;
 
