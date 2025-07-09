@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const registerRoutes = require('./routes/registerRoutes');
 const isSameRoutes = require('./routes/isSameRoutes');
+const getMemoRoutes = require('./routes/getMemoRoutes');
 //const supabase = require('./services/supabaseClient');
 
 const app = express();
@@ -17,7 +18,7 @@ app.use(express.json()); //json 파싱
 app.use('/onboard', authRoutes);
 app.use('/onboard', registerRoutes);
 app.use('/onboard', isSameRoutes);
-
+app.use('/memo', getMemoRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ 서버 작동 중!');
