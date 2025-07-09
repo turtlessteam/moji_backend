@@ -1,4 +1,5 @@
 const uploadMemoService = require('../services/uploadMemoService');
+const generateMemoTitle = require('../utils/generateMemoTitle');
 
 const uploadMemoController = async (req, res) => {
   try {
@@ -8,8 +9,8 @@ const uploadMemoController = async (req, res) => {
     const { memoContent, priority, todo } = req.body;
 
     // 제목 생성 로직
-    //const memoTitle = generateMemoTitleSomehow(memoContent); // 나중에 구현해야함
-    const memoTitle = "exampleMemoTitle";
+    //const memoTitle = generateMemoTitle(); 
+    const memoTitle = "exampleMemoTitle"; //더미데이터
 
 
     await uploadMemoService({ userId, memoContent, priority, memoTitle, todo, token });
