@@ -6,6 +6,6 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const uploadMemoController = require('../controllers/uploadMemoController');
 
 router.get('/', authMiddleware, getMemoController);
-router.get('/upload', authMiddleware, uploadMemoController);
+router.post('/upload', authMiddleware, uploadMemoController);
 
 module.exports = router;

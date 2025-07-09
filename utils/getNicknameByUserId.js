@@ -5,7 +5,6 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_API_KEY = process.env.SUPABASE_KEY;
 
 const getNicknameByUserId = async (userId, accessToken) => {
-    console.log("토큰: ", accessToken);
     try {
         const response = await axios.get(
             `${SUPABASE_URL}/rest/v1/nicknames?userId=eq.${userId}`,
