@@ -1,0 +1,24 @@
+const uploadMemoService = require('../services/uploadMemoService');
+
+const uploadMemoController = async (req, res) => {
+  try {
+    const userId = req.user.id; // 또는 토큰에서 userId 추출
+    const token = req.token;
+
+    const { memoContent, priority, todo } = req.body;
+
+    // 제목 생성 로직
+    //const memoTitle = generateMemoTitleSomehow(memoContent); // 나중에 구현해야함
+    const memoTitle = "exampleMemoTitle";
+
+
+    await uploadMemoService({ userId, memoContent, priority, memoTitle, todo, token });
+
+    res.status(200).send();
+  } catch (error) {
+    console.error('Error in controller:', error);
+    res.status(500).json({ message: '서버 에러' });
+  }
+};
+
+module.exports = uploadMemoController;
