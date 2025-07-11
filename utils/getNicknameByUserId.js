@@ -16,10 +16,11 @@ const getNicknameByUserId = async (userId, accessToken) => {
             }
         );
         data = response.data;
+        
         return data[0].nickname;
     } catch (error) {
-        console.error('Supabase �г��� �ҷ����� ����:', error.response?.data || error.message);
-        throw new Error('Supabase �г��� �ҷ����� ����');
+        console.error('SupabasegetNicknameByUserId 오류:', error.response?.data || error.message);
+        throw new Error('SupabasegetNicknameByUserId 오류');
     }
 };
 

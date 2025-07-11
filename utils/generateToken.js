@@ -34,8 +34,8 @@ async function getSupabaseToken(email, password) { //���ڴ� ��� �
         };
 
     } catch (error) {
-        console.error('Supabase �α��� ����:', error.response?.data || error.message);
-        throw new Error('Supabase �α��� ����');
+        console.error('Supabase generate token 중 오류발생:', error.response?.data || error.message);
+        throw new Error('Supabase generate token 중 오류발생');
     }
 }
 
