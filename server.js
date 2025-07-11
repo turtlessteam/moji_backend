@@ -6,6 +6,7 @@ const registerRoutes = require('./routes/registerRoutes');
 const isSameRoutes = require('./routes/isSameRoutes');
 const getMemoRoutes = require('./routes/getMemoRoutes');
 //const supabase = require('./services/supabaseClient');
+const todoRoutes = require('./routes/todoRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use('/onboard', authRoutes);
 app.use('/onboard', registerRoutes);
 app.use('/onboard', isSameRoutes);
 app.use('/memo', getMemoRoutes);
+app.use('/todo', todoRoutes);
 
 app.get('/', (req, res) => {
   res.send('✅ 서버 작동 중!');
